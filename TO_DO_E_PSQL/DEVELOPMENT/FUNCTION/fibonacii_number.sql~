@@ -1,0 +1,10 @@
+ CREATE OR REPLACE FUNCTION fib (
+     fib_for integer
+ ) RETURNS integer AS $$
+ BEGIN
+     IF fib_for < 2 THEN
+         RETURN fib_for;
+     END IF;
+     RETURN fib(fib_for - 2) + fib(fib_for - 1);
+ END;
+$$ LANGUAGE plpgsql;

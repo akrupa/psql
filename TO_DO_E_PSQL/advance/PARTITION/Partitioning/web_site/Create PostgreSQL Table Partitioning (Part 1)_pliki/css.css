@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'Cantarell';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Cantarell Regular'), local('Cantarell-Regular'), url(http://fonts.gstatic.com/s/cantarell/v6/V86VyqXbc09Sss3BPsMj1z8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cantarell';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Cantarell Bold'), local('Cantarell-Bold'), url(http://fonts.gstatic.com/s/cantarell/v6/Yir4ZDsCn4g1kWopdg-ehHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cantarell';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Cantarell Oblique'), local('Cantarell-Oblique'), url(http://fonts.gstatic.com/s/cantarell/v6/Qd6zZq_wf1596L3V_8MIs4bN6UDyHWBl620a-IRfuBk.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cantarell';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Cantarell Bold Oblique'), local('Cantarell-BoldOblique'), url(http://fonts.gstatic.com/s/cantarell/v6/weehrwMeZBXb0QyrWnRwFTqR_3kx9_hJXbbyU8S6IN0.woff) format('woff');
+}
+@font-face {
+  font-family: 'Kreon';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Kreon Light'), local('Kreon-Light'), url(http://fonts.gstatic.com/s/kreon/v9/foDwQzChAOJL0-zU6ynhJ_esZW2xOQ-xsNqO47m55DA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Kreon';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kreon Regular'), local('Kreon-Regular'), url(http://fonts.gstatic.com/s/kreon/v9/a5r0-iMPk2rygJI75EuckA.woff) format('woff');
+}

@@ -1,0 +1,20 @@
+
+
+with g as
+(
+ SELECT 
+   current_date + s.a AS gen_date
+ , cast( random()*100 as integer) as v
+ FROM generate_series(-31,0) AS s(a)
+)
+select
+  gen_date
+, v
+, extract(year from gen_date) as year
+, extract(month from gen_date) as month_of_year
+, extract(week from gen_date) as week_of_year
+, extract( dow from gen_date) as day_of_week
+, extract(day from gen_date) as day_of_month
+, extract(doy from gen_date) as day_of_year
+from g;
+

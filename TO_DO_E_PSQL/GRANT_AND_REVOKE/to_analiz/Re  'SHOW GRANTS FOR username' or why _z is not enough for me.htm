@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" dir="ltr" lang="en"><head>
+  <title>Re: "SHOW GRANTS FOR username" or why \z is not enough for
+ me</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 
+  <meta name="copyright" content="The PostgreSQL Global Development Group">
+  <link rel="shortcut icon" href="http://www.postgresql.org/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="PostgreSQL News" href="http://www.postgresql.org/news.rss">
+  <link rel="alternate" type="application/rss+xml" title="PostgreSQL Events" href="http://www.postgresql.org/events.rss">
+  <link rel="stylesheet" type="text/css" media="screen" href="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/jquery-ui.css">
+  <script src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/jquery.js"></script>
+  <script type="text/javascript" src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/jquery-ui.js"></script>
+  <script type="text/javascript" src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/jquery_002.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/jquery.css">
+  <style type="text/css" media="screen">@import url("/media-archives/css/archives.css");</style>
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1345454-2']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script type="text/javascript">
+function onThreadSelect() {
+   document.location.href = '/message-id/' + document.getElementById('thread_select').value;
+}
+
+$(function(){
+   $('select#thread_select').selectmenu({
+      style:'dropdown',
+      escapeHtml:true,
+      icons:[
+         {find:'.hasatt', icon: 'ui-icon-document'},
+      ]
+   });
+});
+</script>
+
+ </head>
+ <body>
+  <div id="pgContainerWrap">
+   <div id="pgContainer">
+    <span class="txtOffScreen"><a href="#pgContent" title="Skip site navigation" accesskey="1">Skip site navigation</a> (1)</span>
+    <span class="txtOffScreen"><a href="#pgContentWrap" title="Skip section navigation" accesskey="2">Skip section navigation</a> (2)</span>
+    <div id="pgHeaderContainer">
+     <div id="pgSearch">
+      <form method="get" action="http://www.postgresql.org/search/">
+       <div>
+        <h2 class="pgBlockHide"><label for="q">Search</label></h2>
+        <input id="q" name="q" size="20" maxlength="255" onfocus="if( this.value==this.defaultValue ) this.value='';" value="Search" accesskey="s" type="text"><input name="a" value="1" type="hidden"><input id="submit" name="submit" value="Search" type="submit">
+       </div>
+      </form>
+      <h2 class="pgBlockHide">Peripheral Links</h2>
+      <div id="pgSearchNav">
+       <ul id="pgSearchNavList">
+        <li>
+          <a href="http://www.postgresql.org/about/donate">Donate</a>
+        </li>
+        <li>
+          <a href="http://www.postgresql.org/about/contact">Contact</a>
+        </li>
+       </ul>
+      </div>
+     </div>
+	 <div id="pgHeader">
+	  <div id="pgHeaderLogoLeft">
+	   <a href="http://www.postgresql.org/"><img alt="PostgreSQL" src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/hdr_left.png" height="80" width="230"></a>
+	  </div>
+	  <div id="pgHeaderLogoRight">
+	   <a href="http://www.postgresql.org/"><img alt="The world's most advanced open source database." src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/hdr_right.png" height="80" width="210"></a>
+	  </div>
+	 </div> <!-- pgHeader -->
+
+	 <div id="pgTopNav">
+	  <div id="pgTopNavLeft"><img alt="" src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/nav_lft.png" height="23" width="7"></div>
+	  <div id="pgTopNavRight"><img alt="" src="Re%20%20%27SHOW%20GRANTS%20FOR%20username%27%20or%20why%20_z%20is%20not%20enough%20for%20me_pliki/nav_rgt.png" height="23" width="7"></div>
+	  <ul id="pgTopNavList">
+	   <li><a href="http://www.postgresql.org/" title="Home">Home</a></li>
+	   <li><a href="http://www.postgresql.org/about" title="About">About</a></li>
+	   <li><a href="http://www.postgresql.org/download" title="Download">Download</a></li>
+	   <li><a href="http://www.postgresql.org/docs" title="Documentation">Documentation</a></li>
+	   <li><a href="http://www.postgresql.org/community" title="Community">Community</a></li>
+	   <li><a href="http://www.postgresql.org/developer" title="Developers">Developers</a></li>
+	   <li><a href="http://www.postgresql.org/support" title="Support">Support</a></li>
+	   <li><a href="http://www.postgresql.org/account" title="Your account">Your account</a></li>
+	  </ul>
+	 </div> <!-- pgTopNav -->
+	</div> <!-- pgHeaderContainer -->
+	<div id="pgContent">
+         <div id="pgSideWrap">
+          <div id="pgSideNav">
+           <ul>
+	     <li><a href="http://www.postgresql.org/community/">Community</a></li>
+	     <li><a href="http://www.postgresql.org/community/contributors/">Contributors</a></li>
+	     <li><a href="http://www.postgresql.org/list/">Mailing Lists</a>
+	       <ul>
+		 <li><a href="http://www.postgresql.org/community/lists/subscribe/">Subscribe</a></li>
+
+                <li><a href="http://www.postgresql.org/list/group/2/">User lists</a>
+
+	         <ul>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-admin/">pgsql-admin</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-advocacy/">pgsql-advocacy</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-announce/">pgsql-announce</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-bugs/">pgsql-bugs</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-docs/">pgsql-docs</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-general/">pgsql-general</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-interfaces/">pgsql-interfaces</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-jobs/">pgsql-jobs</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-novice/">pgsql-novice</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-performance/">pgsql-performance</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-php/">pgsql-php</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-sql/">pgsql-sql</a></li>
+
+                  <li><a href="http://www.postgresql.org/list/pgsql-students/">pgsql-students</a></li>
+
+		 </ul>
+
+	        </li>
+
+                <li><a href="http://www.postgresql.org/list/group/1/">Developer lists</a>
+
+	        </li>
+
+                <li><a href="http://www.postgresql.org/list/group/4/">Regional lists</a>
+
+	        </li>
+
+                <li><a href="http://www.postgresql.org/list/group/8/">Associations</a>
+
+	        </li>
+
+                <li><a href="http://www.postgresql.org/list/group/6/">User groups</a>
+
+	        </li>
+
+                <li><a href="http://www.postgresql.org/list/group/5/">Project lists</a>
+
+	        </li>
+
+                <li><a href="http://www.postgresql.org/list/group/7/">Inactive lists</a>
+
+	        </li>
+
+               </ul>
+	     </li>
+	     <li><a href="http://www.postgresql.org/community/irc">IRC</a></li>
+	     <li><a href="http://www.postgresql.org/community/user-groups/">Local User Groups</a></li>
+	     <li><a href="http://www.postgresql.org/about/users">Featured Users</a></li>
+	     <li><a href="http://www.postgresql.org/community/international">International Sites</a></li>
+	     <li><a href="http://www.postgresql.org/community/propaganda">Propaganda</a></li>
+	     <li><a href="http://www.postgresql.org/community/resources">Resources</a></li>
+	     <li><a href="http://www.postgresql.org/community/weeklynews/">Weekly News</a></li>
+           </ul>
+          </div>
+        </div> <!-- pgSideWrap -->
+        <div id="pgContentWrap">
+
+<h2>Re: "SHOW GRANTS FOR username" or why \z is not enough for
+ me</h2>
+<table class="message">
+ <tbody><tr>
+  <th>From:</th>
+  <td>Christian Hammers &lt;ch(at)lathspell(dot)de&gt;</td>
+ </tr>
+ <tr>
+  <th>To:</th>
+  <td>pgsql-novice(at)postgresql(dot)org</td>
+ </tr>
+
+ <tr>
+  <th>Subject:</th>
+  <td>Re: "SHOW GRANTS FOR username" or why \z is not enough for
+ me</td>
+ </tr>
+ <tr>
+  <th>Date:</th>
+  <td>2012-07-02 23:42:28</td>
+ </tr>
+ <tr>
+  <th>Message-ID:</th>
+  <td><a href="http://www.postgresql.org/message-id/20120703014228.11c82a45@james.intern">20120703014228.11c82a45@james.intern</a> (view <a href="http://www.postgresql.org/message-id/raw/20120703014228.11c82a45@james.intern">raw</a> or <a href="http://www.postgresql.org/message-id/flat/20120703014228.11c82a45@james.intern">flat</a>)</td>
+ </tr>
+ <tr>
+  <th>Thread:</th>
+  <td>
+   <select aria-disabled="false" style="display: none;" id="thread_select" onchange="onThreadSelect()">
+<option value="20120701192005.05b83a62@james.intern">2012-07-01 17:20:05 from Christian Hammers &lt;ch(at)lathspell(dot)de&gt;</option>
+<option value="jsq20p$ct2$1@news.albasani.net">&nbsp;2012-07-01 17:39:43 from Lew &lt;noone(at)lewscanon(dot)com&gt;</option>
+<option value="27975.1341172988@sss.pgh.pa.us">&nbsp;2012-07-01 20:03:08 from Tom Lane &lt;tgl(at)sss(dot)pgh(dot)pa(dot)us&gt;</option>
+<option value="20120703014228.11c82a45@james.intern" selected="selected">&nbsp;&nbsp;2012-07-02 23:42:28 from Christian Hammers &lt;ch(at)lathspell(dot)de&gt;</option>
+
+   </select><span><a aria-disabled="false" style="width: 502px;" aria-owns="thread_select-menu" aria-haspopup="true" tabindex="0" href="#nogo" role="button" id="thread_select-button" class="ui-selectmenu ui-widget ui-state-default ui-corner-all ui-selectmenu-dropdown"><span class="ui-selectmenu-status">&nbsp;&nbsp;2012-07-02 23:42:28 from Christian Hammers &lt;ch(at)lathspell(dot)de&gt;</span><span class="ui-selectmenu-icon ui-icon ui-icon-triangle-1-s"></span></a></span>
+  </td>
+ </tr>
+ <tr>
+  <th>Lists:</th>
+  <td><span class="listname"><a href="http://www.postgresql.org/list/pgsql-novice/since/201207022342">pgsql-novice</a></span></td>
+ </tr>
+</tbody></table>
+<div class="bodywrapper">
+
+<pre>Am Sun, 01 Jul 2012 16:03:08 -0400
+schrieb Tom Lane &lt;tgl(at)sss(dot)pgh(dot)pa(dot)us&gt;:
+
+&gt; Christian Hammers &lt;ch(at)lathspell(dot)de&gt; writes:
+&gt; &gt; As a newbie Postgres admin I like to double check that my users have
+&gt; &gt; all necessary rights and more important only those and no more.
+&gt; 
+&gt; &gt; All Postgres commands like \dp, \dt, \dn etc. cannot be filtered
+&gt; &gt; with WHERE though and are more useful to show the owner of an object
+&gt; &gt; not to show all objects owned by a user.
+&gt; 
+&gt; &gt; My best approach so far is the following but I took me a while to
+&gt; &gt; build and I somehow think that there must be a more elegant solution
+&gt; &gt; like "SHOW GRANTS FOR foo" in MySQL. Any ideas?
+&gt; 
+&gt; has_table_privilege() and sibling functions might help you with that.
+&gt; The approach you propose is full of holes --- most importantly, that
+&gt; it will not report privileges held by virtue of being a member of a
+&gt; group, such as PUBLIC.
+ 
+has_table_privilege() has the disadvantage that it needs a privilege
+as parameter and I don't want to test all possible values in a loop.
+
+Therefore I still try to extract the roles from pg_class.relacl but now
+check them with pg_has_role() which luckily checks recursive which
+also makes it possible to report "group" memberships.
+
+Below is my improved version which seems to work quite well now and
+produces the following output:
+
+postgres(at)root=# SELECT * FROM view_all_grants WHERE subject = 'root';
+ subject | namespace |    relname    | relkind |  owner   |                    relacl                    | relaclitemuser | via_owner | via_groupowner | via_user | via_group | via_public 
+---------+-----------+---------------+---------+----------+----------------------------------------------+----------------+-----------+----------------+----------+-----------+------------
+ root    | public    | by_group      | r       | postgres | {postgres=arwdDxt/postgres,wheel=r/postgres} | wheel          | f         | f              | f        | t         | f
+ root    | public    | by_groupowner | r       | wheel    |                                              | !NULL!         | f         | t              | f        | f         | f
+ root    | public    | by_owner      | r       | root     |                                              | !NULL!         | t         | f              | f        | f         | f
+ root    | public    | by_public     | r       | postgres | {postgres=arwdDxt/postgres,=r/postgres}      |                | f         | f              | f        | f         | t
+ root    | public    | by_user       | r       | postgres | {postgres=arwdDxt/postgres,root=r/postgres}  | root           | f         | f              | t        | f         | f
+...
+
+CREATE OR REPLACE VIEW view_all_grants AS
+SELECT * FROM (
+    SELECT
+      use.usename as subject,
+      nsp.nspname as namespace,
+      c.relname, 
+      c.relkind,
+      pg_authid.rolname as owner,
+      c.relacl,
+      c.relaclitemuser,
+      use.usename = pg_authid.rolname as via_owner,
+      case
+        when use.usename = pg_authid.rolname then false
+        else pg_has_role(use.usename, pg_authid.rolname, 'member')
+      end as via_groupowner,
+      use.usename = c.relaclitemuser as via_user,
+      case 
+        when c.relaclitemuser = '' then false -- acl for public role
+        when c.relaclitemuser = '!NULL!' then false -- pg_class.relacl was null
+        when c.relaclitemuser = use.usename then false -- pg_has_role(x,x) is always true
+        else pg_has_role(use.usename, c.relaclitemuser, 'member') -- does recursive lookup
+      end as via_group,
+      relaclitemuser = '' as via_public
+    FROM
+      pg_user use 
+      cross join (
+          SELECT 
+            *,
+            split_part(relaclitem, '=', 1) as relaclitemuser 
+          FROM (
+	      SELECT 
+		relnamespace,
+		relname,
+		relkind,
+		relowner,
+		relacl,
+		CASE
+		  WHEN relacl is null THEN '!NULL!=' 
+		  ELSE unnest(relacl::text[]) 
+		END as relaclitem
+              FROM 
+		pg_class 
+	      ) as sub_c
+	  ) as c
+      left join pg_namespace nsp on (c.relnamespace = nsp.oid)
+      left join pg_authid on (c.relowner = pg_authid.oid) -- users and groups
+    ) as via
+WHERE
+  via_owner or via_groupowner or via_user or via_group or via_public
+ORDER BY
+  subject,
+  namespace,
+  relname
+;
+
+bye,
+
+-christian-
+
+</pre>
+
+
+
+<h3>In response to</h3>
+<ul>
+<li><a href="http://www.postgresql.org/message-id/27975.1341172988@sss.pgh.pa.us">Re: "SHOW GRANTS FOR username" or why \z is not enough for me</a> at 2012-07-01 20:03:08 from Tom Lane</li>
+</ul>
+
+
+
+
+<h3>pgsql-novice by date</h3>
+<blockquote>
+ <table border="0">
+  
+   <tbody><tr><td><a href="http://www.postgresql.org/message-id/CAPxpS=buCNabC15BMMLKYNCwN2v8HjQWTqcP8=t-suUhJbiVvA@mail.gmail.com">Next</a>:</td><td><b>From:</b> Lasma Sietinsone</td><td><b>Date:</b> 2012-07-03 10:55:58</td></tr>
+   <tr><td></td><td colspan="2"><b>Subject</b>: PLDOC for PostgreSQL?</td></tr>
+  
+  
+   <tr><td><a href="http://www.postgresql.org/message-id/4FF20204.4040700@gmail.com">Previous</a>:</td><td><b>From</b>: Monte Milanuk</td><td><b>Date</b>: 2012-07-02 20:18:12</td></tr>
+   <tr><td></td><td colspan="2"><b>Subject</b>: Re: SQL - learning trail?</td></tr>
+  
+ </tbody></table>
+</blockquote>
+
+
+
+
+</div>
+
+        </div> <!-- pgContentWrap-->
+     <br class="pgClearBoth">
+    </div> <!-- pgContent -->
+	<div id="pgFooter">
+         <a class="navFooter" href="http://www.postgresql.org/about/privacypolicy">Privacy Policy</a> |
+         <a class="navFooter" href="http://www.postgresql.org/about/">About PostgreSQL</a><br>
+	 Copyright © 1996-2014 The PostgreSQL Global Development Group
+	</div> <!-- pgFooter -->
+   </div>
+  </div> <!-- pgContainerWrap -->
+ 
+
+<div style="z-index: 1; top: 313.383px; left: 335.45px;" class="ui-selectmenu-menu"><ul aria-activedescendant="ui-selectmenu-item-797" aria-disabled="false" style="width: 502px; height: auto;" id="thread_select-menu" aria-labelledby="thread_select-button" role="listbox" aria-hidden="true" class="ui-widget ui-widget-content ui-selectmenu-menu-dropdown ui-corner-bottom"><li role="presentation"><a aria-selected="false" role="option" tabindex="-1" href="#nogo">2012-07-01 17:20:05 from Christian Hammers &lt;ch(at)lathspell(dot)de&gt;</a></li><li role="presentation"><a aria-selected="false" role="option" tabindex="-1" href="#nogo">&nbsp;2012-07-01 17:39:43 from Lew &lt;noone(at)lewscanon(dot)com&gt;</a></li><li role="presentation"><a aria-selected="false" role="option" tabindex="-1" href="#nogo">&nbsp;2012-07-01 20:03:08 from Tom Lane &lt;tgl(at)sss(dot)pgh(dot)pa(dot)us&gt;</a></li><li class="ui-corner-bottom ui-selectmenu-item-selected ui-selectmenu-item-focus" role="presentation"><a id="ui-selectmenu-item-797" aria-selected="true" role="option" tabindex="-1" href="#nogo">&nbsp;&nbsp;2012-07-02 23:42:28 from Christian Hammers &lt;ch(at)lathspell(dot)de&gt;</a></li></ul></div></body></html>

@@ -1,0 +1,227 @@
+drop table if exists day_all_customer_activity;
+
+create table day_all_customer_activity
+(
+  processing_date date
+, msisdn_skid integer
+, last_call_date date
+, last_topup_date date
+, churn_30_date date
+, churn_90_date date
+);
+
+
+-------------------------------------------------------------- create
+{
+LOOPDATE=$(date -d " 2014-09-10 0 day" +%Y-%m-%d)
+LOOPENDDATE=$(date -d "2014-09-30 1 day" +%Y-%m-%d)
+
+until [ "${LOOPENDDATE}" == "${LOOPDATE}" ]
+do
+  NAME_TAB="test_day_customer_activity_$( echo  ${LOOPDATE} | sed 's/-//g') "  
+  echo "  CREATE TABLE  ${NAME_TAB} ( CHECK ( processing_date= date('${LOOPDATE}') )  )  INHERITS (day_all_customer_activity); " 
+LOOPDATE=$(date -d "${LOOPDATE} 1 day" +%Y-%m-%d)
+done
+
+} > ./test_create_tab.sql
+
+
+------------------------------------------------------------- drop
+{
+LOOPDATE=$(date -d " 2013-03-10 0 day" +%Y-%m-%d)
+LOOPENDDATE=$(date -d "2014-09-30 1 day" +%Y-%m-%d)
+
+until [ "${LOOPENDDATE}" == "${LOOPDATE}" ]
+do
+  NAME_TAB="test_day_customer_activity_$( echo  ${LOOPDATE} | sed 's/-//g') "  
+  echo "  drop table if exists   ${NAME_TAB}; " 
+LOOPDATE=$(date -d "${LOOPDATE} 1 day" +%Y-%m-%d)
+done
+} > ./test_drop_tab.sql
+
+--------------------------------------------------------------
+#------------------------------------------------------------- create trigger
+
+{
+echo "CREATE OR REPLACE FUNCTION impressions_by_day_all_customer_activity_insert_trigger() "
+echo "RETURNS TRIGGER AS \$\$ "
+echo "BEGIN "
+echo " IF ( NEW.processing_date = null  ) THEN  "
+echo "RAISE EXCEPTION 'Date is null.  Something wrong with the impressions_by_day_insert_trigger() function!'; "
+
+##### petala
+#
+#echo "ELSIF ( NEW.processing_date = date('2014-09-16') ) THEN  "
+#echo " INSERT INTO day_customer_activity_20140916 VALUES (NEW.*); "
+#
+ LOOPDATE=$(date -d " 2013-03-10 0 day" +%Y-%m-%d)
+ LOOPENDDATE=$(date -d "2014-09-30 1 day" +%Y-%m-%d)
+
+until [ "${LOOPENDDATE}" == "${LOOPDATE}" ]
+do
+  NAME_TAB="test_day_customer_activity_$( echo  ${LOOPDATE} | sed 's/-//g') "  
+ 
+  echo " ELSIF ( NEW.processing_date = date('${LOOPDATE}') ) THEN  " 
+  echo "   INSERT INTO $NAME_TAB VALUES (NEW.*); "
+LOOPDATE=$(date -d "${LOOPDATE} 1 day" +%Y-%m-%d)
+done
+
+#####
+
+echo " ELSE "
+echo "   RAISE EXCEPTION 'Date out of range.  Something wrong with the impressions_by_day_insert_trigger() function!'; "
+echo " END IF; "
+echo "   RETURN NULL; "
+echo "END; "
+echo "\$\$"
+echo "LANGUAGE plpgsql; "
+} > create_trigger.sql
+
+#---------------------------------------------------------------------------- end create trigger
+
+
+DROP TRIGGER insert_day_all_customer_activity ON day_all_customer_activity;
+CREATE TRIGGER insert_day_all_customer_activity 
+  BEFORE INSERT ON day_all_customer_activity 
+  FOR EACH ROW EXECUTE PROCEDURE impressions_by_day_all_customer_activity_insert_trigger();
+
+
+INSERT INTO day_all_customer_activity select * from customer_activity where processing_date='2014-09-15' limit 10;
+
+
+INSERT INTO day_all_customer_activity 
+select * from customer_activity where 
+processing_date between '2014-09-01' and '2014-09-30'
+
+INSERT INTO day_all_customer_activity 
+select * from customer_activity where processing_date between '2013-03-10' and '2014-09-30'
+
+
+TRUNCATE TABLE day_all_customer_activity;
+--------------------
+select count(*) from customer_activity where processing_date between '2013-03-10' and '2014-09-30'
+--------------------
+select count(*) from day_all_customer_activity where processing_date between '2014-09-01' and '2014-09-30';
+
+
+
+select sum(cast(tab_size as bigint  )), count(*), current_time
+from 
+(
+SELECT
+    table_schema || '.' || table_name AS table_full_name,
+    pg_total_relation_size('"' || table_schema || '"."' || table_name || '"') AS tab_size
+FROM information_schema.tables
+where table_name like '%stg_file_kmap%'
+
+ORDER BY
+    pg_total_relation_size('"' || table_schema || '"."' || table_name || '"') DESC
+) p
+where p.tab_size<>0
+
+
+---------------
+
+
+{
+LOOPDATE=$(date -d " 2013-03-10 0 day" +%Y-%m-%d)
+LOOPENDDATE=$(date -d "2014-09-30 1 day" +%Y-%m-%d)
+
+until [ "${LOOPENDDATE}" == "${LOOPDATE}" ]
+do
+  NAME_TAB="test_day_customer_activity_$( echo  ${LOOPDATE} | sed 's/-//g') "  
+  echo "########################################  load: $NAME_TAB"
+  echo "START_TIME=\$(date +%s)" 
+  echo "psql -c \" INSERT INTO day_all_customer_activity select * from customer_activity where processing_date='$LOOPDATE';\"  "  
+  echo "END_TIME=\$(date +%s)"
+  echo "echo \" $NAME_TAB    TIME IN SECONDS: \$(( \$END_TIME-\$START_TIME ))\""
+LOOPDATE=$(date -d "${LOOPDATE} 1 day" +%Y-%m-%d)
+done
+} > ./load_tab.sh
+
+INSERT INTO day_all_customer_activity select * from customer_activity where processing_date='2014-09-15' limit 10;
+
+select pid,  query_start,  usename ,  query from pg_stat_activity;
+
+-----------------------------------------load manthly all
+
+
+
+
+{
+
+INDEX=1;
+LOOPDATE=$(date -d " 2013-03-10 0 day" +%Y-%m-%d)
+LOOPENDDATE=$(date -d "2014-09-30 1 day" +%Y-%m-%d)
+
+until [ "${LOOPENDDATE}" == "${LOOPDATE}" ]
+do
+ {	
+  NAME_TAB="test_day_customer_activity_$( echo  ${LOOPDATE} | sed 's/-//g') "  
+  echo "########################################  load: $NAME_TAB"
+  echo "START_TIME=\$(date +%s)" 
+  echo "psql -U mis -c \" INSERT INTO day_all_customer_activity select * from customer_activity where processing_date='$LOOPDATE';\"  "  
+  echo "END_TIME=\$(date +%s)"
+  echo "echo \" $NAME_TAB    TIME IN SECONDS: \$(( \$END_TIME-\$START_TIME ))\""
+  LOOPDATE=$(date -d "${LOOPDATE} 1 day" +%Y-%m-%d)
+  
+  INDEX=$((INDEX+1));
+  if [ "$((INDEX/20))" -eq "0" ]
+  then 
+     echo " psql -U mis -f ./load_$((INDEX))  & "  >> run
+
+  fi
+  } >> ./load_$((INDEX/20)).sql
+done
+} > ./load_tab.sh
+
+
+
+START=0
+END=28
+ 
+echo "example "
+for (( c=$START; c<=$END; c++ ))
+do
+	echo "bash load_${c}.sql  > log_${c} & "
+
+done
+
+
+
+
+-------------------------------------------------------
+
+select pid,  query_start,  usename ,  query from pg_stat_activity where pid=19460;
+[2014-09-24 19:05:30] Andrzej krupa: 
+
+select sum(cast(tab_size as bigint  )), count(*), current_time
+from 
+(
+SELECT
+    table_schema || '.' || table_name AS table_full_name,
+    pg_total_relation_size('"' || table_schema || '"."' || table_name || '"') AS tab_size
+FROM information_schema.tables
+where table_name like '%customer_activity_20%'
+
+ORDER BY
+    pg_total_relation_size('"' || table_schema || '"."' || table_name || '"') DESC
+) p
+where p.tab_size<>0
+
+
+
+############################################
+
+{
+LOOPDATE=$(date -d " 2014-09-10 0 day" +%Y-%m-%d)
+LOOPENDDATE=$(date -d "2014-09-30 1 day" +%Y-%m-%d)
+
+until [ "${LOOPENDDATE}" == "${LOOPDATE}" ]
+do
+  echo "$BIN_DIR/create_part_customer_activity.sh ${LOOPDATE} ${LOOPDATE}   >> /tmp/tmp_error.txt"
+LOOPDATE=$(date -d "${LOOPDATE} 1 day" +%Y-%m-%d)
+done
+
+} > ./test_create_tab.sql
+

@@ -1,0 +1,44 @@
+show hba_file; 
+ psql -t -P format=unaligne  -c "show hba_file;"
+/usr/local/pgsql/data/pg_hba.conf
+
+
+
+/usr/local/pgsql/data/postgresql.conf
+
+
+Restarting PostgreSQL Server
+
+To start PostgreSQL server, run:
+
+Linux:
+
+# /etc/rc.d/init.d/postgresql start
+
+FreeBSD:
+
+# /usr/local/etc/rc.d/010.pgsql.sh start
+
+To stop PostgreSQL, run:
+
+Linux:
+
+# /etc/rc.d/init.d/postgresql stop
+
+FreeBSD:
+
+# /usr/local/etc/rc.d/010.pgsql.sh stop
+
+To restart PostgreSQL, run:
+
+Linux:
+
+# /etc/rc.d/init.d/postgresql restart
+
+FreeBSD:
+
+# /usr/local/etc/rc.d/010.pgsql.sh stop
+# sleep 10
+# /usr/local/etc/rc.d/010.pgsql.sh start
+
+ 19202

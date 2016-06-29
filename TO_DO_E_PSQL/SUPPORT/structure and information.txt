@@ -1,0 +1,7 @@
+select  current_user;
+
+-- lista jêzyków w których mo¿na pisaæ funkcjie
+select * from pg_language;
+
+-- nazwy funkcji
+select prosrc from pg_proc;

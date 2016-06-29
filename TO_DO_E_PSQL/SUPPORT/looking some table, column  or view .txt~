@@ -1,0 +1,77 @@
+\d information_schema.tables
+\d information_schema.columns
+
+
+select distinct table_schema from information_schema.tables;
+
+
+mis_db=> SELECT  table_schema, table_name, column_name  FROM information_schema.columns where table_name like '%prcss_cdr_raw_promo%' order by 1,2,3 ;
+
+SELECT  table_schema, table_name, column_name  FROM information_schema.columns where table_name like '%prcss_cdr_raw_promo%' order by 1,2,3 ;
+
+SELECT  table_schema, table_name, column_name  
+FROM information_schema.columns
+where column_name like '%tariff%' order by 1,2,3 ;
+
+SELECT  table_schema, table_name FROM information_schema.columns
+where  column_name like '%msisdn%' and table_name like 'stg%'
+order by 1,2 ;
+
+mis_db=> select schemaname, viewname, viewowner from pg_catalog.pg_views
+where schemaname NOT IN ('pg_catalog', 'information_schema')
+order by schemaname, viewname;
+
+
+
+ SELECT  table_schema, table_name, column_name  FROM information_schema.columns where column_name ilike '%sku%' order by 1,2,3 ;
+
+
+---------------------------------------------------- Szukanie po tabeli
+SELECT distinct table_schema ||'.'|| table_name  
+FROM information_schema.columns 
+where table_name like '%[0-9]%' order by 1 
+;
+-----------------------------------------------------
+SELECT  table_schema ||'.'|| table_name  FROM information_schema.columns where
+table_name like '%mis_agrcascade_campaign_base%' order by 1 ;
+
+---------------------------------------------------- Szukanie po kolumnie
+SELECT 
+  table_schema ||'.'|| table_name as schema_table 
+, column_name  
+FROM information_schema.columns 
+where column_name like '%%' order by 1,2 ;
+
+
+---------------------------------------------------------------------------------
+select schemaname, viewname, viewowner from pg_catalog.pg_views
+where schemaname NOT IN ('pg_catalog', 'information_schema') 
+      and viewname like '%sales%'
+order by schemaname, viewname;
+
+
+------------------------------------------- 
+ SELECT
+  table_schema ||'.'|| table_name as schema_table
+, column_name
+FROM information_schema.columns
+where  
+    column_name like '%msisdn%' 
+and table_schema='mis_stg' 
+and column_name not like '%msisdn_skid%'  
+order by 1,2 ;
+
+
+select   src_sys_code, from 
+(
+select distinct   distributor_name, src_sys_code  from distributors
+) p
+
+
+select src_sys_code, count(*)
+from distributors
+group by 1
+
+load_prcss_handel_partners_promo.sql HN
+cat load_prcss_sales_pos_promo.sql  -- coœ dziwnego  FC
+

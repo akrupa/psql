@@ -1,0 +1,59 @@
+
+create table A 
+( 
+  nr integer 
+, arithmetic integer
+, geometric_progression integer 
+);
+
+insert into A select generate_series(1,10);
+
+drop function up_date();
+
+CREATE OR REPLACE FUNCTION up_date (
+ ) RETURNS integer AS $$
+ DECLARE
+ r_a RECORD;
+ sum integer;
+ BEGIN
+     update A set arithmetic='0';
+
+    FOR r_a IN SELECT * FROM A LOOP
+    sum:=r_a.nr;
+    update A set arithmetic=r_a.nr;
+    
+    END LOOP; 
+
+  RETURN  sum;
+ END;
+$$ LANGUAGE plpgsql
+
+----
+
+
+
+
+
+
+
+
+    join public.calendar cal on p.full_date = cal.full_date
+
+where
+
+                p.full_date < current_date) as q
+
+   
+
+where
+
+                q.full_date = current_date - 1
+
+
+
+
+
+
+
+
+

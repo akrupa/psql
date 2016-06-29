@@ -1,0 +1,3 @@
+show hba_file; 
+ psql -t -P format=unaligne  -c "show hba_file;"
+/usr/local/pgsql/data/pg_hba.conf

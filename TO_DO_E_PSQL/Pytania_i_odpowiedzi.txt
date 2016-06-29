@@ -1,0 +1,59 @@
+http://www.allinterview.com/interview-questions/28-2/postgre.html
+-------- How to take backup of database?
+
+/usr/local/bin/pg_dump mydatabase > mydatabase.pgdump 
+
+-------- How to list the number of database?
+psql -l 
+
+--------- How to created a database?
+
+/usr/local/bin/createdb mydatabase 
+-------- Explain about concurreny with the help of MVCC?
+
+---- Explain about database administration tools?
+
+There are various data administration tools they are
+
+1) Psql
+
+2) Pgadmin
+
+3) Phppgadmin
+
+Most of these tools are front end administration tools and web based interfaces. Out of these phppgadmin is the most popular one. 
+
+------- Explain about Triggers?
+By SQL query you can trigger an event. Triggers can be activated with the help of INSERT and UPDATE queries. These can be attached to tables. Triggers more than one can be triggered alphabetically. These triggers have the capability to invoke functions from other languages. 
+
+---------------Explain about indices of PostgreSQL?
+There are built in functions such as B-tree, hash table, and GIST indices can be used or users can define their own indices. PostgreSQL can scan the index backwards. Expression index could be created with the result of an expression. Partial index created with addition of WHERE clause. 
+
+--------------- Explain about functions in PostgreSQL?
+Functions are important because they help the code to be executed on the server. Some of the languages which can program functions for efficient use are PL/pgSQL which is the native language of PostgreSQL. Scripting languages are supported by many languages such as PHP, Perl, Python, etc. PL/R a statistical language can also be used. 
+
+
+---------------- How to check whether PostgreSQL server is up and running?
+
+/usr/local/etc/rc.d/010.pgsql.sh status
+
+/usr/local/etc/rc.d/postgresql status 
+
+-----------------
+/usr/local/etc/rc.d/010.pgsql.sh stop
+
+/usr/local/etc/rc.d/postgresql stop 
+
+----------------- State some of the advanced features of PostgreSQL?
+These are the following features which are present in PostgreSQL they are
+
+1) Object relational database
+
+2) Extensibility and support for SQL
+
+3) Database validation and flexible API
+
+4) Procedural languages and MVCC
+
+5) Client server and WAL. 
+

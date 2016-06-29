@@ -1,0 +1,97 @@
+drop table if exists T;
+create table T
+( 
+   row_id integer
+,  key  varchar(1)
+,  value integer
+);
+
+-- 000
+-- 001
+INSERT INTO t values(1,'Z',1);
+-- 010
+INSERT INTO t values(2,'Y',1);
+-- 011
+INSERT INTO t values(3,'Y',1);
+INSERT INTO t values(3,'Z',1);
+-- 100
+INSERT INTO t values(4,'X',1);
+-- 101
+INSERT INTO t values(5,'X',1);
+INSERT INTO t values(5,'Z',1);
+-- 110
+INSERT INTO t values(6,'X',1);
+INSERT INTO t values(6,'Y',1);
+-- 111
+INSERT INTO t values(7,'X',1);
+INSERT INTO t values(7,'Y',1);
+INSERT INTO t values(7,'Z',1);
+
+
+
+
+select
+ d.row_id
+, case when x.value is null then 0 else x.value end as x
+, case when y.value is null then 0 else y.value end as y
+, case when z.value is null then 0 else z.value end as z
+from (select distinct row_id  from T order by row_id) d 
+LEFT JOIN T x on (d.row_id=x.row_id and x.key='X' )
+LEFT JOIN T y on (d.row_id=y.row_id and y.key='Y' )
+LEFT JOIN T z on (d.row_id=z.row_id and z.key='Z' )
+;
+
+
+
+--------------------------------------------------- Pr
+
+select * 
+from
+(
+select
+  case when x.row_id is null then y.row_id else x.row_id end as row_id
+, x.row_id as id_x
+, y.row_id as id_y
+, x.value as v_x
+, y.value as v_z
+from  (select  * from T where key='X' ) x
+full outer JOIN  (select  * from T where key='Y' ) y on (x.row_id = y.row_id )
+order by 1
+) p
+full   outer join  (select * from T where key='Z') z on ( z.row_id = p.row_id )
+order by 1
+
+--------------------------------------------------
+-------------------------------------------------- PIVOT wbudowany 
+--------------------------------------------------
+------------------------------------------- DLACZEGO jest nie poprawnie 
+select * from crosstab(
+  'select  row_id, key, value from T  order by 1',
+  'select distinct key from T'
+) as (
+   row_id integer
+  , "x" integer
+  , "y" integer
+  , "z" integer
+) ;
+------------------------------------------- ODPOWIEDè (kolejnoúÊ jest waøna)
+
+
+select * from crosstab(
+  'select  row_id, key, value from T  order by 1',
+  'select ''X'' UNION ALL select ''Y'' UNION ALL select ''Z'';'
+) as (
+   row_id integer
+  , x integer
+  , y integer
+  , z integer
+) ;
+
+
+
+
+
+
+
+
+
